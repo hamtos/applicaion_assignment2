@@ -1,10 +1,13 @@
 <div class='container'>
+  <% unless @book_comment.nil? %>
+    <%= render 'layouts/errors', obj: @book_comment %>
+  <% end %>
   <div class='row'>
     <div class='col-md-3'>
       <h2>User info</h2>
       <%= render 'users/info', user: @book.user %>
       <h2 class="mt-3">New book</h2>
-      <%= render 'form', book: Book.new %>
+      <%= render 'books/form', book: Book.new %>
     </div>
     <div class='col-md-8 offset-md-1'>
   		<h2>Book detail</h2>
@@ -17,13 +20,16 @@
           </td>
           <td><%= link_to @book.title, @book %></td>
           <td><%= @book.body %></td>
-          <td><%= render 'favorite', book: @book %></td>
+          <td><%= render 'books/favorite', book: @book %></td>
           <% if @book.user == current_user %>
             <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success" %></td>
             <td><%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>
           <% end %>
         </tr>
       </table>
+      <div>
+        <%= render 'book_comments/index', book_comments: @book.book_comment.all %>
+      </div>
     </div>
   </div>
 </div>
